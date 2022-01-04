@@ -83,6 +83,18 @@ def pingpong(n):
 
     return helper(1, 1, 1)
 
+
+# BETTER SOLUTIONs
+def pingpong_sol(n):
+    def helper(index, element, step):
+        if index == n:
+            return element
+        if index % 8 == 0 or num_eights(index) > 0:
+            return helper(index + 1, element - step, -step)
+        else:
+            return helper(index + 1, element + step, step)
+    return helper(1, 1, 1)
+
 # def pingpong_while(n):
 #     i = 1
 #     element = 1
