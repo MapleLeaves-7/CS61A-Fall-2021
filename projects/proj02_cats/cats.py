@@ -205,25 +205,38 @@ def minimum_mewtations(start, goal, limit):
     >>> minimum_mewtations("ckiteus", "kittens", big_limit) # ckiteus -> kiteus -> kitteus -> kittens
     3
     """
-    assert False, 'Remove this line'
+    # Note: Here, the limit acts as a counter for the number of edits made
 
-    if ______________:  # Fill in the condition
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
+    if start == "" or goal == "":
+        # If either one of the strings are empty, the only way to set the result would be to
+        # add that number of letters or remove that number of letters
+        # in either case, the number of edits would be the length of the longer string
+        return max(len(start), len(goal))
 
-    elif ___________:  # Feel free to remove or add additional cases
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
+    elif start[0] == goal[0]:
+        # If the first letter is the same, we don't need to make any edits to the first letter
+        # We can move on to the next recursive step without decreasing the limit-counter
+        return minimum_mewtations(start[1:], goal[1:], limit)
+
+    elif start == goal:
+        # If start equals to goal, no edits need to be made
+        return 0
+
+    elif limit == 0:
+        # If the start is still not equal to the goal,
+        # and we have already hit the maximum number of edits we can make,
+        # then we can stop the computation
+        # we return 1 so that the total number of edits needed to be made when summed up will be greater than the limit
+        return 1
 
     else:
-        add = ...  # Fill in these lines
-        remove = ...
-        substitute = ...
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
+        # Adding a letter to the start string is equivalent to removing a letter from the goal string
+        add = 1 + minimum_mewtations(start, goal[1:], limit - 1)
+        remove = 1 + minimum_mewtations(start[1:], goal, limit - 1)
+        # Subtituting a letter is equivalent to removing a letter from both the start and goal string
+        substitute = 1 + minimum_mewtations(start[1:], goal[1:], limit - 1)
+        # Return the operation that mades the least number of edits to get from start string to goal string
+        return min(add, remove, substitute)
 
 
 def final_diff(start, goal, limit):
