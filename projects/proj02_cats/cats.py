@@ -208,9 +208,8 @@ def minimum_mewtations(start, goal, limit):
     # Note: Here, the limit acts as a counter for the number of edits made
 
     if start == "" or goal == "":
-        # If either one of the strings are empty, the only way to set the result would be to
-        # add that number of letters or remove that number of letters
-        # in either case, the number of edits would be the length of the longer string
+        # This accounts for adding letters to or removing letters from the end of the start string to reach goal string
+        # In either case, the number of edits that need to be made is the length of the longer string
         return max(len(start), len(goal))
 
     elif start[0] == goal[0]:
@@ -230,9 +229,12 @@ def minimum_mewtations(start, goal, limit):
         return 1
 
     else:
+        # This accounts for adding a letter to the beginning of the start string
         # Adding a letter to the start string is equivalent to removing a letter from the goal string
         add = 1 + minimum_mewtations(start, goal[1:], limit - 1)
+        # This accounts for removing a letter from the beginning of the start string
         remove = 1 + minimum_mewtations(start[1:], goal, limit - 1)
+        # This accounts for substituting a letter at the same position
         # Subtituting a letter is equivalent to removing a letter from both the start and goal string
         substitute = 1 + minimum_mewtations(start[1:], goal[1:], limit - 1)
         # Return the operation that mades the least number of edits to get from start string to goal string
