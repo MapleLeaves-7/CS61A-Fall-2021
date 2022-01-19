@@ -187,6 +187,17 @@ def feline_flips(start, goal, limit):
             return count_diff(start[1:], goal[1:], limit, count + 1)
     return count_diff(start, goal, limit, 0)
 
+# OR
+# def feline_flips(start, goal, limit):
+#     if start == "" or goal == "":
+#          return max(len(start), len(goal))
+    # if limit == 0:
+    #     if start == goal:
+    #         return 0
+    #     else:
+    #         return 1
+    # return int(start[0] != goal[0]) + feline_flips(start[1:], goal[1:], limit-int(start[0] != goal[0]))
+
 
 def minimum_mewtations(start, goal, limit):
     """A diff function that computes the edit distance from START to GOAL.
@@ -278,9 +289,15 @@ def report_progress(sofar, prompt, user_id, upload):
     ID: 3 Progress: 0.2
     0.2
     """
-    # BEGIN PROBLEM 8
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 8
+    count = 0
+    for i in range(len(sofar)):
+        if sofar[i] == prompt[i]:
+            count += 1
+        else:
+            break
+    progress = count / len(prompt)
+    upload({'id': user_id, 'progress': progress})
+    return progress
 
 
 def time_per_word(words, times_per_player):
@@ -300,9 +317,11 @@ def time_per_word(words, times_per_player):
     >>> get_times(match)
     [[6, 3, 6, 2], [10, 6, 1, 2]]
     """
-    # BEGIN PROBLEM 9
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 9
+    new_times = []
+    for times in times_per_player:
+        time_diff = [times[i+1] - times[i] for i in range(len(times) - 1)]
+        new_times.append(time_diff)
+    return match(words, new_times)
 
 
 def fastest_words(match):
@@ -324,9 +343,29 @@ def fastest_words(match):
                            )  # contains an *index* for each player
     # contains an *index* for each word
     word_indices = range(len(get_words(match)))
-    # BEGIN PROBLEM 10
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 10
+
+    fastest_words = [[] for i in range(len(player_indices))]
+
+    for word_index in word_indices:
+        # Check which player wrote it the fastest
+        fastest = {'player': None, 'time': None,
+                   'word': word_at(match, word_index)}
+
+        for player_index in player_indices:
+            timing = time(match, player_index, word_index)
+
+            if fastest['time'] == None:
+                fastest['player'] = player_index
+                fastest['time'] = timing
+            elif timing < fastest['time']:
+                fastest['player'] = player_index
+                fastest['time'] = timing
+
+        word = fastest['word']
+        player = fastest['player']
+        fastest_words[player].append(word)
+
+    return fastest_words
 
 
 def match(words, times):
@@ -417,7 +456,7 @@ def run_typing_test(topics):
         print('Words per minute:', wpm(typed, elapsed))
         print('Accuracy:        ', accuracy(typed, reference))
 
-        print('\nPress enter/return for the next paragraph or type q to quit.')
+        print('\nPress enter/return for the next paragraph or type q topython3 ok quit.')
         if input().strip() == 'q':
             return
         i += 1
