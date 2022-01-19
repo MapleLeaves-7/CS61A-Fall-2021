@@ -1,3 +1,6 @@
+from math import sqrt
+
+
 def factors_list(n):
     """Return a list containing all the numbers that divide `n` evenly, except
     for the number itself. Make sure the list is in ascending order.
@@ -10,7 +13,10 @@ def factors_list(n):
     [1, 2, 4, 7, 14]
     """
     all_factors = []
-    "*** YOUR CODE HERE ***"
+    for i in range(1, n):
+        if n % i == 0:
+            all_factors.append(i)
+    return all_factors
 
 
 def flatten(s):
@@ -29,10 +35,10 @@ def flatten(s):
     >>> x
     [[1, [1, 1]], 1, [1, 1]]
     """
-    "*** YOUR CODE HERE ***"
-
-
-from math import sqrt
+    if not type(s) == list:
+        return [s]
+    else:
+        return sum([flatten(element) for element in s], [])
 
 
 def distance(city_a, city_b):
@@ -46,7 +52,9 @@ def distance(city_a, city_b):
     >>> distance(city_c, city_d)
     5.0
     """
-    "*** YOUR CODE HERE ***"
+    x1, y1 = get_lat(city_a), get_lon(city_a)
+    x2, y2 = get_lat(city_b), get_lon(city_b)
+    return sqrt((x1 - x2)**2 + (y1 - y2)**2)
 
 
 def closer_city(lat, lon, city_a, city_b):
@@ -64,7 +72,13 @@ def closer_city(lat, lon, city_a, city_b):
     >>> closer_city(41.29, 174.78, bucharest, vienna)
     'Bucharest'
     """
-    "*** YOUR CODE HERE ***"
+    comparison_city = make_city('Comparison City', lat, lon)
+    dist_to_a = distance(comparison_city, city_a)
+    dist_to_b = distance(comparison_city, city_b)
+    if dist_to_a < dist_to_b:
+        return get_name(city_a)
+    else:
+        return get_name(city_b)
 
 
 def check_city_abstraction():
@@ -163,7 +177,16 @@ def berry_finder(t):
     >>> berry_finder(t)
     True
     """
-    "*** YOUR CODE HERE ***"
+    if label(t) == 'berry':
+        return True
+    else:
+        # If any of the branches of the tree have the label 'berry', then should return True
+        for b in branches(t):
+            if berry_finder(b):
+                return True
+        # If none of the branches have the label 'berry', or if this is a leaf and its label is not 'berry'
+        # that means that berry does not exist in this tree
+        return False
 
 
 def sprout_leaves(t, leaves):
@@ -199,7 +222,10 @@ def sprout_leaves(t, leaves):
           1
           2
     """
-    "*** YOUR CODE HERE ***"
+    if is_leaf(t):
+        return tree(label(t), [tree(leaf) for leaf in leaves])
+    else:
+        return tree(label(t), [sprout_leaves(b, leaves) for b in branches(t)])
 
 # Abstraction tests for sprout_leaves and berry_finder
 
