@@ -113,7 +113,7 @@ def generate_preorder(t):
     """
     yield t.label
     for b in t.branches:
-        yield preorder(b)
+        yield from generate_preorder(b)
 
 
 def remainders_generator(m):
