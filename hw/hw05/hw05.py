@@ -20,7 +20,17 @@ def gen_perms(seq):
     >>> sorted(gen_perms("ab"))
     [['a', 'b'], ['b', 'a']]
     """
-    "*** YOUR CODE HERE ***"
+    if len(seq) == 1:
+        return [seq]
+    else:
+        all_permutations = []
+        first_elem = seq[0]
+        permutations_of_rest = gen_perms(seq[1:])
+        for each_permutation in permutations_of_rest:
+            for i in range(len(each_permutation) + 1):
+                all_permutations.append(
+                    each_permutation[:i] + [first_elem] + each_permutation[i:])
+        return all_permutations
 
 
 def path_yielder(t, value):
@@ -161,9 +171,9 @@ class Tree:
 
 
 tree = lambda label, branches=[]: Tree(label, branches)
-label = lambda t: t.label
-branches = lambda t: t.branches
-print_tree = lambda t: print(t)
+def label(t): return t.label
+def branches(t): return t.branches
+def print_tree(t): return print(t)
 
 
 def naturals():
