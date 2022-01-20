@@ -27,7 +27,7 @@ def gen_perms(seq):
         yield [seq[0]]
     else:
         for each_permutation in gen_perms(seq[1:]):
-            for i in range(len(each_permutation) + 1):
+            for i in range(len(seq)):
                 yield each_permutation[:i] + [seq[0]] + each_permutation[i:]
 
 
