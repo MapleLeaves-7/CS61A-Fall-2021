@@ -1,3 +1,6 @@
+from lib2to3.pytree import Leaf
+
+
 def gen_perms(seq):
     """Generates all permutations of the given sequence. Each permutation is a
     list of the elements in SEQ in a different order. The permutations may be
@@ -21,16 +24,12 @@ def gen_perms(seq):
     [['a', 'b'], ['b', 'a']]
     """
     if len(seq) == 1:
-        return [seq]
+        yield [seq[0]]
     else:
-        all_permutations = []
         first_elem = seq[0]
-        permutations_of_rest = gen_perms(seq[1:])
-        for each_permutation in permutations_of_rest:
+        for each_permutation in gen_perms(seq[1:]):
             for i in range(len(each_permutation) + 1):
-                all_permutations.append(
-                    each_permutation[:i] + [first_elem] + each_permutation[i:])
-        return all_permutations
+                yield each_permutation[:i] + [first_elem] + each_permutation[i:]
 
 
 def path_yielder(t, value):
@@ -67,10 +66,23 @@ def path_yielder(t, value):
     >>> sorted(list(path_to_2))
     [[0, 2], [0, 2, 1, 2]]
     """
-    "*** YOUR CODE HERE ***"
-    for _______________ in _________________:
-        for _______________ in _________________:
-            "*** YOUR CODE HERE ***"
+    if t.label == value:
+        yield [value]
+    for b in t.branches:
+        for sub_path in path_yielder(b, value):
+            yield [t.label] + sub_path
+
+
+# Solved using recursion first before solving generator version above
+def path_yielder_recursive(t, value):
+    """Recursive"""
+    path = []
+    if t.label == value:
+        path = [[t.label]]
+    for b in t.branches:
+        path += [[t.label] +
+                 sub_path for sub_path in path_yielder_recursive(b, value)]
+    return path
 
 
 def preorder(t):
@@ -83,7 +95,10 @@ def preorder(t):
     >>> preorder(tree(2, [tree(4, [tree(6)])]))
     [2, 4, 6]
     """
-    "*** YOUR CODE HERE ***"
+    path = [t.label]
+    for b in t.branches:
+        path += preorder(b)
+    return path
 
 
 def generate_preorder(t):
@@ -97,7 +112,9 @@ def generate_preorder(t):
     >>> list(gen)
     [2, 3, 4, 5, 6, 7]
     """
-    "*** YOUR CODE HERE ***"
+    yield t.label
+    for b in t.branches:
+        yield preorder(b)
 
 
 def remainders_generator(m):
@@ -131,7 +148,14 @@ def remainders_generator(m):
     7
     11
     """
-    "*** YOUR CODE HERE ***"
+    def internal_remainder(divisor, remainder):
+        natural_num = naturals()
+        while True:
+            curr_num = next(natural_num)
+            if curr_num % divisor == remainder:
+                yield curr_num
+    for remainder in range(m):
+        yield internal_remainder(m, remainder)
 
 
 class Tree:
