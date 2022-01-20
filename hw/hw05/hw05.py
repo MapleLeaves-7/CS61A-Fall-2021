@@ -148,6 +148,8 @@ def remainders_generator(m):
     11
     """
     def internal_remainder(divisor, remainder):
+        # Note: you don't actually need to pass in the divisor (i.e. m)
+        # since func will have access to it as its in the parent frame
         natural_num = naturals()
         while True:
             curr_num = next(natural_num)
@@ -155,6 +157,18 @@ def remainders_generator(m):
                 yield curr_num
     for remainder in range(m):
         yield internal_remainder(m, remainder)
+
+
+# Corrections
+def remainders_generator_correction(m):
+    def gen(i):
+        # Since naturals is an infinite generator, and we can loop over generators,
+        # We can just loop over natural
+        for e in naturals():
+            if e % m == i:
+                yield e
+    for i in range(m):
+        yield gen(i)
 
 
 class Tree:
