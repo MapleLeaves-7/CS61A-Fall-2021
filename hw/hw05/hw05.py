@@ -26,10 +26,9 @@ def gen_perms(seq):
     if len(seq) == 1:
         yield [seq[0]]
     else:
-        first_elem = seq[0]
         for each_permutation in gen_perms(seq[1:]):
             for i in range(len(each_permutation) + 1):
-                yield each_permutation[:i] + [first_elem] + each_permutation[i:]
+                yield each_permutation[:i] + [seq[0]] + each_permutation[i:]
 
 
 def path_yielder(t, value):
