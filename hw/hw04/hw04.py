@@ -129,6 +129,8 @@ def balanced(m):
                 if not balanced(end_of_arm):
                     return False
         return True
+    # can replace with
+    # return left_torque == right_torque and balanced(end_of_left_arm) and balanced(end_of_right_arm)
 
 
 def totals_tree(m):
@@ -247,6 +249,18 @@ def has_path(t, word):
         else:
             return False
 
+# Alternative Solution
+# def has_path(t, word):
+#     if label(t) != word[0]:
+#         return False
+#     elif len(word) == 1:
+#         return True
+
+#     for b in branches(t):
+#         if has_path(b, word[1:]):
+#             return True
+#     return False
+
 
 def preorder(t):
     """Return a list of the entries in this tree in the order that they
@@ -326,6 +340,11 @@ def sub_interval(x, y):
             possible_interval_values.append(x_value - y_value)
     return interval(min(possible_interval_values), max(possible_interval_values))
 
+# better solution with uses prexisting functions:
+# def sub_interval(x, y):
+#     negative_y = interval(-upper_bound(y), -lower_bound(y))
+#     return add_interval(x, negative_y)
+
 
 def div_interval(x, y):
     """Return the interval that contains the quotient of any value in x divided by
@@ -359,8 +378,8 @@ def check_par():
     >>> lower_bound(x) != lower_bound(y) or upper_bound(x) != upper_bound(y)
     True
     """
-    r1 = interval(1, 10)  # Replace this line!
-    r2 = interval(2, 20)  # Replace this line!
+    r1 = interval(1, 10)
+    r2 = interval(2, 20)
     return r1, r2
 
 
