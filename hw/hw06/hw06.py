@@ -310,22 +310,14 @@ def bst_min(t):
     """Returns the minimum value of a Tree if it is a valid binary search tree."""
     if t.is_leaf():
         return t.label
-    elif len(t.branches) == 1 and t.branches[0].label > t.label:
-        return t.label
-    else:
-        return bst_min(t.branches[0])
+    return min(t.label, bst_min(t.branches[0]))
 
 
 def bst_max(t):
     """Returns the maximum value of a Tree if it is a valid binary search tree."""
     if t.is_leaf():
         return t.label
-    elif len(t.branches) == 1:
-        if t.branches[0].label <= t.label:
-            return t.label
-        return bst_max(t.branches[0])
-    else:
-        return bst_max(t.branches[1])
+    return max(t.label, bst_min(t.branches[-1]))
 
 
 class Link:
