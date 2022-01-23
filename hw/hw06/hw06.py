@@ -250,12 +250,13 @@ class VirFib():
 
     def next(self):
         if self.value == 0:
-            self.prev_value_1 = self.value
-            self.prev_value_2 = 1
+            result = VirFib(1)
         else:
-            self.prev_value_1 += 1
-            self.prev_value_2 += 1
-        return VirFib(self.prev_value_1 + self.prev_value_2)
+            result = VirFib(self.value + self.previous)
+        # This was the part that caused me to be unable to solve the problem
+        # You can create new instance attributes for objects even after you ahve initialised them!
+        result.previous = self.value
+        return result
 
     def __repr__(self):
         return "VirFib object, value " + str(self.value)
