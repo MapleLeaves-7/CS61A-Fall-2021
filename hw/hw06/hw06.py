@@ -61,29 +61,14 @@ class VendingMachine:
             return "Nothing left to vend. Please restock."
 
         change = self.funds - self.cost
-        # Note: there is repeated code here
-        # Could decrement stock beforehand
-        if change > 0:
-            self.funds = 0
-            self.stock -= 1
-            return f"Here is your {self.name} and ${change} change."
-        elif change == 0:
-            self.funds = 0
-            self.stock -= 1
-            return f"Here is your {self.name}."
-        else:
+        if change < 0:
             return f"You must add ${-change} more funds."
-
-        # Corrections
-        # if change < 0:
-        #     return f"You must add ${-change} more funds."
-
-        # self.funds = 0
-        # self.stock -= 1
-        # if change > 0:
-        #     return f"Here is your {self.name} and ${change} change."
-        # else:
-        #     return f"Here is your {self.name}."
+        self.funds = 0
+        self.stock -= 1
+        if change > 0:
+            return f"Here is your {self.name} and ${change} change."
+        else:
+            return f"Here is your {self.name}."
 
     # Corrections
     # def vend(self):
