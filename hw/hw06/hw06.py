@@ -159,15 +159,13 @@ def store_digits(n):
     >>> print("Do not use str or reversed!") if any([r in cleaned for r in ["str", "reversed"]]) else None
     >>> link1 = Link(3, Link(Link(4), Link(5, Link(6))))
     """
-    if n < 10:
-        return Link(n)
-    else:
-        power_of_ten = 0
-        while pow(10, power_of_ten) <= n:
-            power_of_ten += 1
-        power_of_ten -= 1
-        first_num = (n // pow(10, power_of_ten)) % 10
-        return Link(first_num, store_digits(n % pow(10, power_of_ten)))
+    # Note: Recursion in this case is NOT USEFUL!!
+    # Previous solution was extremely complicated for no reason
+    result = Link.empty
+    while n > 0:
+        result = Link(n % 10, result)
+        n //= 10
+    return result
 
 
 def deep_map_mut(fn, link):
