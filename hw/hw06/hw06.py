@@ -1,3 +1,4 @@
+from cProfile import label
 from turtle import left, right
 
 
@@ -289,21 +290,20 @@ def is_bst(t):
     """
     if t.is_leaf():
         return True
-    num_branches = len(t.branches)
-    if num_branches > 2:
-        return False
-    if num_branches == 1:
-        return is_bst(t.branches[0])
+    if len(t.branches) == 1:
+        c = t.branches[0]
+        # This branch can be a tree that is either all greater than label or all less than or equal to label
+        # Since we already checked if this branch is aor is not a valid bst, we can assume that it is
+        # So we just need to check that the maximum of the branch is either less than or equal to the label (in which case the branch goes down a minimum route)
+        # or if the minimum value of the branche is greater than the label
+        # if neither of these are the case, then we can say that this branch is not a valid bst
+        return is_bst(c) and (bst_max(c) <= t.label or bst_min(c) > t.label)
+    elif len(t.branches) == 2:
+        c1, c2 = t.branches
+        valid_branches = is_bst(c1) and is_bst(c2)
+        return valid_branches and bst_max(c1) <= t.label and bst_min(c2) > label
     else:
-        left_branch = t.branches[0]
-        right_branch = t.branches[1]
-        if left_branch.label > t.label or right_branch.label <= t.label:
-            return False
-        # Check that the binary serach tree maintains value hierarchy across branches
-        elif bst_min(left_branch) > bst_min(right_branch) or bst_max(right_branch) <= bst_max(left_branch):
-            return False
-        for branch in t.branches:
-            return is_bst(branch)
+        return False
 
 
 def bst_min(t):
