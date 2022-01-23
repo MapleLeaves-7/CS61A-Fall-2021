@@ -1,3 +1,6 @@
+from turtle import left, right
+
+
 class VendingMachine:
     """A vending machine that vends some product for some price.
 
@@ -105,10 +108,10 @@ class Mint:
         self.update()
 
     def create(self, kind):
-        "*** YOUR CODE HERE ***"
+        return kind(self.year)
 
     def update(self):
-        "*** YOUR CODE HERE ***"
+        self.year = Mint.present_year
 
 
 class Coin:
@@ -116,7 +119,11 @@ class Coin:
         self.year = year
 
     def worth(self):
-        "*** YOUR CODE HERE ***"
+        age = Mint.present_year - self.year
+        if age > 50:
+            return self.cents + (age - 50)
+        else:
+            return self.cents
 
 
 class Nickel(Coin):
@@ -143,7 +150,15 @@ def store_digits(n):
     >>> print("Do not use str or reversed!") if any([r in cleaned for r in ["str", "reversed"]]) else None
     >>> link1 = Link(3, Link(Link(4), Link(5, Link(6))))
     """
-    "*** YOUR CODE HERE ***"
+    if n < 10:
+        return Link(n)
+    else:
+        power_of_ten = 0
+        while pow(10, power_of_ten) <= n:
+            power_of_ten += 1
+        power_of_ten -= 1
+        first_num = (n // pow(10, power_of_ten)) % 10
+        return Link(first_num, store_digits(n % pow(10, power_of_ten)))
 
 
 def deep_map_mut(fn, link):
@@ -163,7 +178,15 @@ def deep_map_mut(fn, link):
     >>> print(link1)
     <9 <16> 25 36>
     """
-    "*** YOUR CODE HERE ***"
+    if isinstance(link.first, Link):
+        deep_map_mut(fn, link.first)
+    else:
+        link.first = fn(link.first)
+
+    if link.rest is Link.empty:
+        return
+    else:
+        deep_map_mut(fn, link.rest)
 
 
 def two_list(vals, amounts):
@@ -185,7 +208,14 @@ def two_list(vals, amounts):
     >>> c
     Link(1, Link(1, Link(3, Link(3, Link(2)))))
     """
-    "*** YOUR CODE HERE ***"
+    link = Link.empty
+    for i in reversed(range(len(vals))):
+        amount = amounts[i]
+        curr_val = vals[i]
+        while amount > 0:
+            link = Link(curr_val, link)
+            amount -= 1
+    return link
 
 
 class VirFib():
@@ -214,7 +244,13 @@ class VirFib():
         self.value = value
 
     def next(self):
-        "*** YOUR CODE HERE ***"
+        if self.value == 0:
+            self.prev_value_1 = self.value
+            self.prev_value_2 = 1
+        else:
+            self.prev_value_1 += 1
+            self.prev_value_2 += 1
+        return VirFib(self.prev_value_1 + self.prev_value_2)
 
     def __repr__(self):
         return "VirFib object, value " + str(self.value)
@@ -245,7 +281,45 @@ def is_bst(t):
     >>> is_bst(t7)
     False
     """
-    "*** YOUR CODE HERE ***"
+    if t.is_leaf():
+        return True
+    num_branches = len(t.branches)
+    if num_branches > 2:
+        return False
+    if num_branches == 1:
+        return is_bst(t.branches[0])
+    else:
+        left_branch = t.branches[0]
+        right_branch = t.branches[1]
+        if left_branch.label > t.label or right_branch.label <= t.label:
+            return False
+        # Check that the binary serach tree maintains value hierarchy across branches
+        elif bst_min(left_branch) > bst_min(right_branch) or bst_max(right_branch) <= bst_max(left_branch):
+            return False
+        for branch in t.branches:
+            return is_bst(branch)
+
+
+def bst_min(t):
+    """Returns the minimum value of a Tree if it is a valid binary search tree."""
+    if t.is_leaf():
+        return t.label
+    elif len(t.branches) == 1 and t.branches[0].label > t.label:
+        return t.label
+    else:
+        return bst_min(t.branches[0])
+
+
+def bst_max(t):
+    """Returns the maximum value of a Tree if it is a valid binary search tree."""
+    if t.is_leaf():
+        return t.label
+    elif len(t.branches) == 1:
+        if t.branches[0].label <= t.label:
+            return t.label
+        return bst_max(t.branches[0])
+    else:
+        return bst_max(t.branches[1])
 
 
 class Link:
@@ -324,3 +398,12 @@ class Tree:
                 tree_str += print_tree(b, indent + 1)
             return tree_str
         return print_tree(self).rstrip()
+
+
+# t5 = Tree(1, [Tree(0, [Tree(-1, [Tree(-2)])])])
+# t6 = Tree(1, [Tree(4, [Tree(2, [Tree(3)])])])
+
+# print(bst_min(t5))
+# print(bst_max(t5))
+# print(bst_min(t6))
+# print(bst_max(t6))
