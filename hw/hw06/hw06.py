@@ -152,6 +152,7 @@ class Coin:
             return self.cents + (age - 50)
         else:
             return self.cents
+        # return self.cents + max(0, Mint.present_year - self.year - 50)
 
 
 class Nickel(Coin):
