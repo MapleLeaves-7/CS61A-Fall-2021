@@ -39,8 +39,6 @@ def cumulative_mul(t):
     >>> t
     Tree(105, [Tree(15, [Tree(5)]), Tree(7)])
     """
-    if t.is_leaf():
-        return
     total = t.label
     for b in t.branches:
         cumulative_mul(b)
