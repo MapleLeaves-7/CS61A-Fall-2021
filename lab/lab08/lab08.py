@@ -7,10 +7,11 @@ def convert_link(link):
     >>> convert_link(Link.empty)
     []
     """
-    if link is Link.empty:
-        return []
-    else:
-        return [link.first] + convert_link(link.rest)
+    elements = []
+    while link is not Link.empty:
+        elements += [link.first]
+        link = link.rest
+    return elements
 
 
 def label_squarer(t):
