@@ -137,7 +137,20 @@ def every_other(s):
     >>> singleton
     Link(4)
     """
-    "*** YOUR CODE HERE ***"
+    def helper(s, index):
+        if s is Link.empty:
+            return
+        helper(s.rest, index + 1)
+        if index % 2 == 0:
+            if s.rest is Link.empty:
+                # If there are an odd number of nodes, the last even numbered node would be the end of the list
+                # In this case, leave it
+                s.rest = Link.empty
+            else:
+                # If you are not at the end, skip past the odd numbered node
+                # and redirect the rest of this node to point to the next even node
+                s.rest = s.rest.rest
+    helper(s, 0)
 
 
 def prune_small(t, n):
