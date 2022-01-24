@@ -109,7 +109,15 @@ def add_d_leaves(t, v):
           10
         10
     """
-    "*** YOUR CODE HERE ***"
+    def helper(t, v, depth):
+      # Goes through the branches this node already has first
+        for b in t.branches:
+            helper(b, v,  depth + 1)
+        # Then adds the num of branches to this node
+        # so that you don't add a branch and then try to add a branch to the added branch
+        for _ in range(depth):
+            t.branches.append(Tree(v))
+    helper(t, v, 0)
 
 
 def every_other(s):
