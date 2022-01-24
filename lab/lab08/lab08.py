@@ -25,12 +25,9 @@ def label_squarer(t):
     >>> t
     Tree(1, [Tree(9, [Tree(25)]), Tree(49)])
     """
-    if t is Link.empty:
-        return
-    else:
-        t.label = t.label * t.label
-        for b in t.branches:
-            label_squarer(b)
+    t.label = t.label ** 2
+    for b in t.branches:
+        label_squarer(b)
 
 
 def cumulative_mul(t):
