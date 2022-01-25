@@ -96,10 +96,10 @@ def merge(incr_a, incr_b):
     iter_a, iter_b = iter(incr_a), iter(incr_b)
     next_a, next_b = next(iter_a, None), next(iter_b, None)
     while next_a is not None or next_b is not None:
-        if next_a is None or (next_b is not None and next_b < next_a):
+        if next_a is None or next_b < next_a:
             yield next_b
             next_b = next(iter_b, None)
-        elif next_b is None or (next_a is not None and next_a < next_b):
+        elif next_b is None or next_a < next_b:
             yield next_a
             next_a = next(iter_a, None)
         else:
