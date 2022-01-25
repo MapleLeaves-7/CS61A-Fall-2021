@@ -156,11 +156,13 @@ class Account:
         return f"{self.holder}'s Balance: ${self.balance}"
 
     def __repr__(self):
-        num_withdrawals = sum(
-            [1 for x in self.transactions if x[0] == 'withdraw'])
-        num_deposits = sum(
-            [1 for x in self.transactions if x[0] == 'deposit'])
-        return f"Accountholder: {self.holder}, Deposits: {num_deposits}, Withdraws: {num_withdrawals}"
+        num_deposits, num_withdraws = 0, 0
+        for transaction in self.transactions:
+            if transaction[0] == 'deposit':
+                num_deposits += 1
+            else:
+                num_withdraws += 1
+        return f"Accountholder: {self.holder}, Deposits: {num_deposits}, Withdraws: {num_withdraws}"
 
 
 def trade(first, second):
