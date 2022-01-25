@@ -73,7 +73,10 @@ def num_trees(n):
     429
 
     """
-    "*** YOUR CODE HERE ***"
+    # Note: I still don't really understand how this code works
+    if n == 1:
+        return 1
+    return sum(num_trees(k) * num_trees(n-k) for k in range(1, n))
 
 
 def merge(incr_a, incr_b):
