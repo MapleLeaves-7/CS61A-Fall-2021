@@ -203,7 +203,7 @@ def trade(first, second):
     m, n = 1, 1
 
     def equal_prefix(): return sum(first[:m]) == sum(second[:n])
-    while not (sum(first[:m]) == sum(second[:n])) and (m < len(first) or n < len(second)):
+    while not equal_prefix() and (m < len(first) or n < len(second)):
         if sum(first[:m]) < sum(second[:n]):
             m += 1
         else:
