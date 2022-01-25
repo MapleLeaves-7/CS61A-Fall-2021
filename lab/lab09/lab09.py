@@ -296,7 +296,7 @@ def deep_len(lnk):
     """
     if lnk is Link.empty:
         return 0
-    elif isinstance(lnk, int):
+    elif not isinstance(lnk, Link):
         return 1
     else:
         return deep_len(lnk.first) + deep_len(lnk.rest)
