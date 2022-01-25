@@ -45,12 +45,12 @@ def non_decrease_subseqs(s):
         if not s:
             return [[]]
         elif s[0] < prev:
-            return [[s[0]], [prev]] + subseq_helper(s[1:], s[0])
+            return subseq_helper(s[1:], prev)
         else:
             a = prev
             b = subseq_helper(s[1:], s[0])
             return insert_into_all(a, b) + b
-    return subseq_helper(s[1:], s[0])
+    return subseq_helper(s, 0)
 
 
 def num_trees(n):
@@ -95,25 +95,16 @@ def merge(incr_a, incr_b):
     """
     iter_a, iter_b = iter(incr_a), iter(incr_b)
     next_a, next_b = next(iter_a, None), next(iter_b, None)
-    while next_a != None and next_b != None:
-        if next_a < next_b:
-            yield next_a
-            next_a = next(iter_a, None)
-        elif next_a > next_b:
+    while next_a is not None or next_b is not None:
+        if next_a is None or (next_b is not None and next_b < next_a):
             yield next_b
             next_b = next(iter_b, None)
+        elif next_b is None or (next_a is not None and next_a < next_b):
+            yield next_a
+            next_a = next(iter_a, None)
         else:
             yield next_a
-            next_a = next(iter_a, None)
-            next_b = next(iter_b, None)
-    if next_a == None:
-        while next_b != None:
-            yield next_b
-            next_b = next(iter_b, None)
-    else:
-        while next_a != None:
-            yield next_a
-            next_a = next(iter_a, None)
+            next_a, next_b = next(iter_a, None), next(iter_b, None)
 
 
 class Account:
