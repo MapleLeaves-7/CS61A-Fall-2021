@@ -7,7 +7,7 @@ def insert_into_all(item, nested_list):
     >>> insert_into_all(0, nl)
     [[0], [0, 1, 2], [0, 3]]
     """
-    "*** YOUR CODE HERE ***"
+    return [[item] + l for l in nested_list]
 
 
 def subseqs(s):
@@ -20,11 +20,11 @@ def subseqs(s):
     >>> subseqs([])
     [[]]
     """
-    if ________________:
-        ________________
+    if s == []:
+        return [[]]
     else:
-        ________________
-        ________________
+        list_without_first_ele = subseqs(s[1:])
+        return insert_into_all(s[0], list_without_first_ele) + list_without_first_ele
 
 
 def non_decrease_subseqs(s):
@@ -183,7 +183,7 @@ def trade(first, second):
     """
     m, n = 1, 1
 
-    equal_prefix = lambda: ______________________
+    def equal_prefix(): return ______________________
     while _______________________________:
         if __________________:
             m += 1
