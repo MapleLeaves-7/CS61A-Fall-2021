@@ -7,9 +7,9 @@
 )
 
 (define (interleave s1 s2) 
-  (cond
-    ((null? s1) (if (null? s2) nil s2))
-    (else (cons (car s1) (interleave s2 (cdr s1))))
+  (if (null? s1) 
+      (if (null? s2) nil s2)
+    (cons (car s1) (interleave s2 (cdr s1)))
   )
 )
 
