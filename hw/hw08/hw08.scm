@@ -14,6 +14,10 @@
 )
 
 (define (accumulate merger start n term)
-  'YOUR-CODE-HERE)
+  (if (= n 0)
+    start
+    (merger (term n) (accumulate merger start (- n 1) term))
+  )  
+)
 
 (define (no-repeats lst) 'YOUR-CODE-HERE)
