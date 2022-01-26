@@ -6,7 +6,7 @@
 
 (define (ordered? s)
     (cond
-        ((null? (cdr s)) #t)
+        ((or (null? (cdr s)) (null? s)) #t)
         ((< (cadr s) (car s)) #f)
         (else (ordered? (cdr s)))
     )
