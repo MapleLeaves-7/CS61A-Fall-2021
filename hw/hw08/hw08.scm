@@ -20,4 +20,9 @@
   )  
 )
 
-(define (no-repeats lst) 'YOUR-CODE-HERE)
+(define (no-repeats lst)
+  (if (or (null? lst) (null? (cdr lst)))
+    lst
+    (cons (car lst) (no-repeats (my-filter (lambda (x) (not (= (car lst) x))) (cdr lst))))
+  )
+)
