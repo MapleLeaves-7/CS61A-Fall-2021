@@ -58,18 +58,16 @@ class Buffer:
 
     def current(self):
         """Return the current element, or None if none exists."""
-        while True:
+        while not self.more_on_line():
             try:
                 # BEGIN PROBLEM 1
-                if not self.more_on_line():
-                    self.current_line = next(self.source)
-                    self.index = 0
-                return self.current_line[self.index]
+                self.current_line = next(self.source)
+                self.index = 0
                 # END PROBLEM 1
             except StopIteration:
                 self.current_line = ()
                 return None
-        return __________
+        return self.current_line[self.index]
 
     def more_on_line(self):
         return self.index < len(self.current_line)
