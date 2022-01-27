@@ -51,15 +51,20 @@ class Buffer:
         """Remove the next item from self and return it. If self has
         exhausted its source, returns None."""
         # BEGIN PROBLEM 1
-        "*** YOUR CODE HERE ***"
+        current_token = self.current()
+        self.index += 1
+        return current_token
         # END PROBLEM 1
 
     def current(self):
         """Return the current element, or None if none exists."""
-        while _________:
+        while True:
             try:
                 # BEGIN PROBLEM 1
-                "*** YOUR CODE HERE ***"
+                if not self.more_on_line():
+                    self.current_line = next(self.source)
+                    self.index = 0
+                return self.current_line[self.index]
                 # END PROBLEM 1
             except StopIteration:
                 self.current_line = ()
@@ -101,7 +106,7 @@ class LineReader:
         while self.lines:
             line = self.lines.pop(0).strip('\n')
             if (self.prompt is not None and line != "" and
-                not line.lstrip().startswith(self.comment)):
+                    not line.lstrip().startswith(self.comment)):
                 print(self.prompt + line)
                 self.prompt = ' ' * len(self.prompt)
             yield line
