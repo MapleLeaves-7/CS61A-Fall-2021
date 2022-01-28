@@ -1,3 +1,4 @@
+from cmath import exp
 import sys
 import os
 
@@ -61,11 +62,14 @@ def scheme_apply(procedure, args, env):
         # END PROBLEM 2
     elif isinstance(procedure, LambdaProcedure):
         # BEGIN PROBLEM 9
-        "*** YOUR CODE HERE ***"
+        new_frame = procedure.env.make_child_frame(
+            procedure.formals, args)
+        return eval_all(procedure.body, new_frame)
         # END PROBLEM 9
     elif isinstance(procedure, MuProcedure):
         # BEGIN PROBLEM 11
-        "*** YOUR CODE HERE ***"
+        new_frame = env.make_child_frame(procedure.formals, args)
+        return eval_all(procedure.body, new_frame)
         # END PROBLEM 11
     else:
         assert False, "Unexpected procedure: {}".format(procedure)
@@ -87,7 +91,11 @@ def eval_all(expressions, env):
     2
     """
     # BEGIN PROBLEM 6
-    # replace this with lines of your own code
+    if expressions == nil:
+        return None
+    while expressions.rest is not nil:
+        scheme_eval(expressions.first, env)
+        expressions = expressions.rest
     return scheme_eval(expressions.first, env)
     # END PROBLEM 6
 
