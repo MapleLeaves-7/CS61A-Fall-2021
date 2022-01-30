@@ -10,9 +10,9 @@ character: LETTER | NUMBER
 
 word: WORD
 
-?range: NUMBER "-" NUMBER | LETTER "-" LETTER | character
+range: (NUMBER "-" NUMBER) | (LETTER "-" LETTER)
 
-class: "[" range* "]"
+class: "[" (character | range)+ "]"
 
 %ignore /\s+/
 %import common.LETTER
