@@ -19,10 +19,7 @@ def roman_numerals(text):
     >>> roman_numerals("she loves ALL editors equally.")
     []
     """
-    return re.findall(__________, text)
-
-
-import re
+    return re.findall(r'\b[IVXLCDM]+\b', text)
 
 
 def cs_classes(post):
@@ -43,10 +40,7 @@ def cs_classes(post):
     >>> cs_classes("What are some good CS upper division courses? I was thinking about CS 161 or CS 169a")
     True
     """
-    return bool(re.search(__________, post))
-
-
-import re
+    return bool(re.search(r'(CS|cs)(\s)*[0-9]+', post))
 
 
 def match_time(text):
@@ -60,10 +54,7 @@ def match_time(text):
     >>> match_time("At 2:00 I pinged 127.0.0.1:80.")
     ['2:00']
     """
-    return re.findall(__________, text)
-
-
-import re
+    return re.findall(r'\b[012]?[0-9]:[012345]\d(?:[AaPp][Mm])?', text)
 
 
 def area_codes(text):
