@@ -70,7 +70,7 @@ def area_codes(text):
     >>> area_codes("no matches for 12 3456 7890 or 09876-54321")
     []
     """
-    return re.findall(r'\b\(?(\d{3})\)?\s?\d{3}\s?\d{4}\b', text)
+    return re.findall(r'\b\(?(\d{3})\)?[ -]?\d{3}[ -]?\d{4}\b', text)
 
 
 def most_common_code(text):
@@ -89,4 +89,4 @@ def most_common_code(text):
     '123'
     """
     list_of_area_codes = area_codes(text)
-    return max(list_of_area_codes, key=lambda x: list_of_area_codes.count(x))
+    return max(list_of_area_codes, key=list_of_area_codes.count)
