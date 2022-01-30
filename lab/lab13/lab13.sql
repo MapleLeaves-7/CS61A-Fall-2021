@@ -31,6 +31,6 @@ CREATE TABLE sevens AS
 
 
 CREATE TABLE avg_difference AS
-  SELECT round(avg(abs(number - smallest)))
+  SELECT round(avg(abs(number - smallest))) as avg_difference
   FROM students;
 
