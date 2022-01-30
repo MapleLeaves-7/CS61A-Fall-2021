@@ -1,6 +1,6 @@
 rstring: "r\"" regex* "\""
 
-?regex: character | word | group | pipe | class
+?regex: character | word | group | pipe | class | all_quants
 
 group: "(" regex+ ")"
 
@@ -10,9 +10,13 @@ character: LETTER | NUMBER
 
 word: WORD
 
-range: (NUMBER "-" NUMBER) | (LETTER "-" LETTER)
+range: NUMBER "-" NUMBER | LETTER "-" LETTER | character
 
-class: "[" (character | range)+ "]"
+class: "[" range* "]"
+
+?all_quants: (group | character | class) ("*" | "+" | num_quant)
+
+?num_quant: ("{" NUMBER "}") | ("{" (NUMBER ",")+ NUMBER?"}") | ("{" ("," NUMBER)+"}")
 
 %ignore /\s+/
 %import common.LETTER
