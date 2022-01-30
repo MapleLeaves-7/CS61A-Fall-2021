@@ -40,7 +40,7 @@ def cs_classes(post):
     >>> cs_classes("What are some good CS upper division courses? I was thinking about CS 161 or CS 169a")
     True
     """
-    return bool(re.search(r'(CS|cs)(\s)*[0-9]+', post))
+    return bool(re.search(r'(CS|cs)\s?\d+[a-cA-C]?', post))
 
 
 def match_time(text):
