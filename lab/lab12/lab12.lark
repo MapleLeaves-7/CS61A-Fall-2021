@@ -1,10 +1,10 @@
     
 ?start: link
-link: "Link(" link_first ")" | "Link(" link_first ", " link ")"
+link: "Link(" link_first link_rest? ")"
 
 ?link_first: NUMBER | link
 
-?link_rest: "null"
+?link_rest: ", " link
 
 %ignore /\s+/
 %import common.NUMBER
