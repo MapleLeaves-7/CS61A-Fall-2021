@@ -14,9 +14,15 @@ range: NUMBER "-" NUMBER | LETTER "-" LETTER | character
 
 class: "[" range* "]"
 
-?all_quants: (group | character | class) ("*" | "+" | num_quant)
+?all_quants: num_quant | plus_quant | star_quant
 
-?num_quant: ("{" NUMBER "}") | ("{" (NUMBER ",")+ NUMBER?"}") | ("{" ("," NUMBER)+"}")
+?quantifiable: group | character | class
+
+num_quant: quantifiable ("{" ((NUMBER) | ((NUMBER ",")+ NUMBER?) | (("," NUMBER)+)) "}")  
+
+plus_quant: quantifiable "+"
+
+star_quant: quantifiable "*"
 
 %ignore /\s+/
 %import common.LETTER
