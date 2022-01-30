@@ -1,13 +1,18 @@
 rstring: "r\"" regex* "\""
 
-?regex: character | word | group | pipe
+?regex: character | word | group | pipe | class
 
 group: "(" regex+ ")"
 
 pipe: regex+ "|" regex+
 
 character: LETTER | NUMBER
+
 word: WORD
+
+?range: NUMBER "-" NUMBER | LETTER "-" LETTER | character
+
+class: "[" range* "]"
 
 %ignore /\s+/
 %import common.LETTER
