@@ -112,10 +112,18 @@ class Player:
         self.popularity = 100
 
     def debate(self, other):
-        "*** YOUR CODE HERE ***"
+        probability = max(0.1, self.popularity /
+                          (self.popularity + other.popularity))
+        random_float = random()
+        if random_float < probability:
+            self.popularity += 50
+        else:
+            self.popularity = max(0, self.popularity - 50)
 
     def speech(self, other):
-        "*** YOUR CODE HERE ***"
+        self.votes += self.popularity // 10
+        self.popularity += self.popularity // 10
+        other.popularity -= other.popularity // 10
 
     def choose(self, other):
         return self.speech
@@ -139,7 +147,11 @@ class Game:
 
     def play(self):
         while not self.game_over:
-            "*** YOUR CODE HERE ***"
+            if self.turn % 2 == 0:
+                self.p1.choose(self.p2)(self.p2)
+            else:
+                self.p2.choose(self.p1)(self.p1)
+            self.turn += 1
         return self.winner
 
     @property
@@ -148,7 +160,12 @@ class Game:
 
     @property
     def winner(self):
-        "*** YOUR CODE HERE ***"
+        if self.p1.votes > self.p2.votes:
+            return self.p1
+        elif self.p1.votes < self.p2.votes:
+            return self.p2
+        else:
+            return None
 
 
 # Phase 3: New Players
@@ -164,7 +181,10 @@ class AggressivePlayer(Player):
     """
 
     def choose(self, other):
-        "*** YOUR CODE HERE ***"
+        if self.popularity <= other.popularity:
+            return self.debate
+        else:
+            return self.speech
 
 
 class CautiousPlayer(Player):
@@ -181,7 +201,10 @@ class CautiousPlayer(Player):
     """
 
     def choose(self, other):
-        "*** YOUR CODE HERE ***"
+        if self.popularity == 0:
+            return self.debate
+        else:
+            return self.speech
 
 
 def add_trees(t1, t2):
