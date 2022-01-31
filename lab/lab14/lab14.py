@@ -47,10 +47,10 @@ def address_oneline(text):
     >>> address_oneline("790 lowercase St")
     []
     """
-    block_number = r'___'
-    cardinal_dir = r'___'  # whitespace is important!
-    street = r'___'
-    type_abbr = r'___'
+    block_number = r'\b\d{3,5}\b'
+    cardinal_dir = r'(?:\b[NSEW]\b\s)?'  # whitespace is important!
+    street = r'\b[A-Z][a-zA-Z ]*\b'
+    type_abbr = r'\s\b[A-Z][A-Za-z]{1,4}\b'
     street_name = f"{cardinal_dir}{street}{type_abbr}"
     return re.findall(f"{block_number} {street_name}", text)
 
