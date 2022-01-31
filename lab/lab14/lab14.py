@@ -301,10 +301,10 @@ def match_url(text):
     >>> match_url("htp://domain.org")
     False
     """
-    scheme = r'___'
-    domain = r'___'
-    path = r'___'
-    anchor = r'___'
+    scheme = r'(?:http|https)://'
+    domain = r'[A-Za-z\-0-9\.]+'
+    path = r'/[\w\.]+'
+    anchor = r'/#[A-Za-z0-9\-\_]+'
     return bool(re.match(rf"^(?:{scheme})?{domain}(?:{path})?(?:{anchor})?$", text))
 
 
