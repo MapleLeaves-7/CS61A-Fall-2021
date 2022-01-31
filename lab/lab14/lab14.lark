@@ -1,11 +1,9 @@
-lines: "null"
+lines: (line | newline)+
 
-line: "null"
+line: (word ",")* word
 
-word: "null"
+word: WORD?
 
 newline: "\n"
 
-
 %import common.WORD
-
