@@ -10,14 +10,10 @@
 )
 
 (define (compose-all funcs)
-    (define (func-to-return x)
-        (define (apply-all x funcs)
-            (if (null? funcs) 
-                x
-                (apply-all ((car funcs) x) (cdr funcs))
-            )
+    (lambda (x)
+        (if (null? funcs)
+            x
+            ((compose-all (cdr funcs)) ((car funcs) x))
         )
-        (apply-all x funcs)
     )
-    func-to-return
 )
