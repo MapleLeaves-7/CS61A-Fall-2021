@@ -1,3 +1,4 @@
+from cgitb import small
 import re
 
 
@@ -20,7 +21,12 @@ def prune_min(t):
     >>> t3
     Tree(6, [Tree(3, [Tree(1)])])
     """
-    "*** YOUR CODE HERE ***"
+    if not t.branches:
+        return
+    smaller_label = min([b.label for b in t.branches])
+    t.branches = [
+        branch for branch in t.branches if branch.label == smaller_label]
+    return prune_min(t.branches[0])
 
 
 def address_oneline(text):
