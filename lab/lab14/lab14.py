@@ -242,7 +242,16 @@ def add_trees(t1, t2):
         5
       5
     """
-    "*** YOUR CODE HERE ***"
+    new_label = t1.label + t2.label
+    paired_branches = list(zip(t1.branches, t2.branches))
+    diff_in_branch_length = len(t1.branches) - len(t2.branches)
+    # Check if either tree has more branches and add those branches to the tree
+    if diff_in_branch_length > 0:
+        return Tree(new_label, [add_trees(x, y) for x, y in paired_branches] + t1.branches[-diff_in_branch_length:])
+    elif diff_in_branch_length < 0:
+        return Tree(new_label, [add_trees(x, y) for x, y in paired_branches] + t2.branches[diff_in_branch_length:])
+    else:
+        return Tree(new_label, [add_trees(x, y) for x, y in paired_branches])
 
 
 def foldl(link, fn, z):
@@ -257,8 +266,8 @@ def foldl(link, fn, z):
     """
     if link is Link.empty:
         return z
-    "*** YOUR CODE HERE ***"
-    return foldl(______, ______, ______)
+    new_z = fn(z, link.first)
+    return foldl(link.rest, fn, new_z)
 
 
 def foldr(link, fn, z):
@@ -271,7 +280,10 @@ def foldr(link, fn, z):
     >>> foldr(lst, mul, 1) # (3 * (2 * (1 * 1)))
     6
     """
-    "*** YOUR CODE HERE ***"
+    if link is Link.empty:
+        return z
+    new_z = fn(link.first, z)
+    return foldr(link.rest, fn, new_z)
 
 
 def match_url(text):
