@@ -266,8 +266,7 @@ def foldl(link, fn, z):
     """
     if link is Link.empty:
         return z
-    new_z = fn(z, link.first)
-    return foldl(link.rest, fn, new_z)
+    return foldl(link.rest, fn, fn(z, link.first))
 
 
 def foldr(link, fn, z):
@@ -282,8 +281,7 @@ def foldr(link, fn, z):
     """
     if link is Link.empty:
         return z
-    new_z = fn(link.first, z)
-    return foldr(link.rest, fn, new_z)
+    return fn(link.first, foldr(link.rest, fn, z))
 
 
 def match_url(text):
